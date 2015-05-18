@@ -28,6 +28,6 @@
     "co-request": "^0.2.1",
     "koa-router": "^4.3.2",
     "bluebird": "^2.9.25",
-    "mustache": "^2.0.0"
+    "handlebars": "^3.0.3"
   }
 }
