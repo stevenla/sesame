@@ -10,7 +10,7 @@ var config = require('./config.json');
 var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, config.hostname);
 var app = express();
 
-app.get('/', function (req, res) {
+app.get('/requestAll', function (req, res) {
 	config.pushToUsers.forEach(function (username) {
 		var options = {
 			'username': username,
@@ -18,10 +18,10 @@ app.get('/', function (req, res) {
 			'device': 'auto'
 		};
 
-		duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function(duoResponse) {
+		duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function (duoResponse) {
 			if (duoResponse.response.result === 'allow') {
 				console.log('Push allowed for %s', username);
-				var template = fs.readFileSync('templates/index.xml', 'utf-8');
+				var template = fs.readFileSync('templates/p9.xml', 'utf-8');
 				var rendered = handlebars.compile(template);
 				res.send(rendered());
 			} else {
@@ -29,6 +29,12 @@ app.get('/', function (req, res) {
 			}
 		});
 	});
+});
+
+app.get('/', function (req, res) {
+	var template = fs.readFileSync('templates/index.xml', 'utf-8');
+	var rendered = handlebars.compile(template);
+	res.send(rendered());
 });
 
 app.use('/static', express.static('static'));
