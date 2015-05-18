@@ -1,0 +1,28 @@
+{
+  "name": "sesame",
+  "version": "0.0.0",
+  "description": "opens apartment gates with twilio and duo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stevenla/sesame.git"
+  },
+  "keywords": [
+    "node",
+    "twilio",
+    "duo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevenla/sesame/issues"
+  },
+  "homepage": "https://github.com/stevenla/sesame",
+  "dependencies": {
+    "koa": "^0.20.0",
+    "duo": "^0.11.4"
+  }
+}
