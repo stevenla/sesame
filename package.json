@@ -22,12 +22,8 @@
   },
   "homepage": "https://github.com/stevenla/sesame",
   "dependencies": {
-    "koa": "^0.20.0",
-    "duo": "^0.11.4",
-    "co": "^4.5.4",
-    "co-request": "^0.2.1",
-    "koa-router": "^4.3.2",
-    "bluebird": "^2.9.25",
-    "handlebars": "^3.0.3"
+    "handlebars": "^3.0.3",
+    "duo_web": "^1.0.2",
+    "express": "^4.12.3"
   }
 }
