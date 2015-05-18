@@ -27,6 +27,7 @@
     "co": "^4.5.4",
     "co-request": "^0.2.1",
     "koa-router": "^4.3.2",
-    "bluebird": "^2.9.25"
+    "bluebird": "^2.9.25",
+    "mustache": "^2.0.0"
   }
 }
