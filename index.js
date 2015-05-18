@@ -3,7 +3,7 @@
 var express = require('express');
 var fs = require('fs');
 var handlebars = require('handlebars');
-var duoApi = require('duo_api_nodejs');
+var duoApi = require('duo_api');
 
 var config = require('./config.json');
 
