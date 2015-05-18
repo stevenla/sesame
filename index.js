@@ -18,15 +18,16 @@ app.get('/requestAll', function (req, res) {
 			'device': 'auto'
 		};
 
-		var done = false;
+        var self = this;
+        self.done = false;
 		duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function (duoResponse) {
 			if (duoResponse.response.result === 'allow') {
 				console.log('Push allowed for %s', username);
 				var template = fs.readFileSync('templates/p9.xml', 'utf-8');
 				var rendered = handlebars.compile(template);
-				done = true;
-				if (!done) {
+				if (!self.done) {
 					res.send(rendered());
+                    self.done = true;
 				}
 			} else {
 				console.log('Push failed for %s', username);
