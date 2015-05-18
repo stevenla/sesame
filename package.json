@@ -23,6 +23,8 @@
   "homepage": "https://github.com/stevenla/sesame",
   "dependencies": {
     "koa": "^0.20.0",
-    "duo": "^0.11.4"
+    "duo": "^0.11.4",
+    "co": "^4.5.4",
+    "co-request": "^0.2.1"
   }
 }
