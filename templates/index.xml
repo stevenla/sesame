@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say voice="woman" language="en-GB">please wait!</Say>
-    <Redirect method="GET">http://stevenla:3000/requestAll</Redirect>
+    <Redirect method="GET">/requestAll</Redirect>
 </Response>
