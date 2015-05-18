@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
 		};
 
 		duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function(duoResponse) {
-			if (duoResponse.response.result === 'allowed') {
+			if (duoResponse.response.result === 'allow') {
 				console.log('Push allowed for %s', username);
 				var template = fs.readFileSync('templates/index.xml', 'utf-8');
 				var rendered = handlebars.compile(template);
