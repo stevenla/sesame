@@ -11,17 +11,23 @@ var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, confi
 var app = express();
 
 app.get('/', function (req, res) {
-	var options = {
-		'username': 'mrstevenla@gmail.com',
-		'factor': 'push',
-		'device': 'auto'
-	};
+	config.pushToUsers.forEach(function (username) {
+		var options = {
+			'username': username,
+			'factor': 'push',
+			'device': 'auto'
+		};
 
-	duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function(duoResponse) {
-		console.log(duoResponse);
-		var template = fs.readFileSync('templates/index.xml', 'utf-8');
-		var rendered = handlebars.compile(template);
-		res.send(rendered());
+		duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function(duoResponse) {
+			if (duoResponse.response.result === 'allowed') {
+				console.log('Push allowed for %s', username);
+				var template = fs.readFileSync('templates/index.xml', 'utf-8');
+				var rendered = handlebars.compile(template);
+				res.send(rendered());
+			} else {
+				console.log('Push failed for %s', username);
+			}
+		});
 	});
 });
 

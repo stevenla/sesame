@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say voice="woman">sup bitch</Say>
+    <Say voice="woman">welcome to fair oaks, bitch</Say>
     <Play>http://stevenla.com:3000/static/p9.wav</Play>
 </Response>
