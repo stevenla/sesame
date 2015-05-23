@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var fs = require('fs');
 var handlebars = require('handlebars');
 var duoApi = require('duo_api');
@@ -24,12 +25,14 @@ var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, confi
 var app = express();
 
 app.use('/static', express.static('static'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.all('/', function (req, res) {
 	var data = extend(config.display, req.query);
 	var email = req.query.email;
 	if (!email) {
 		res.status(400).send('email not specified');
+		return;
 	}
 
 	var duoOptions = {
@@ -41,14 +44,30 @@ app.all('/', function (req, res) {
 	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
 		if (duoResponse.response.result === 'allow') {
 			console.log('Push allowed for %s', email);
-			var template = fs.readFileSync('templates/index.hbs', 'utf-8');
-			var rendered = handlebars.compile(template);
-			res.send(rendered(data));
+			res.send(render('templates/index.hbs', data));
 		} else {
 			console.log('Push failed for %s', email);
 			res.status(400).send('not allowed');
 		}
 	});
+});
+
+app.all('/passcode', function (req, res) {
+	var data = extend(config.display, req.query);
+	var passcode = req.query.passcode;
+	var digits = req.body.Digits;
+	if (!passcode) {
+		res.status(400).send('passcode required');
+		return;
+	}
+
+	if (!digits) {
+		res.send(render('templates/passcode-input.hbs', data));
+	} else if (digits == passcode) {
+		res.send(render('templates/index.hbs', data));
+	} else {
+		res.status(400).send('not allowed');
+	}
 });
 
 
