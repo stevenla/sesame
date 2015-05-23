@@ -49,7 +49,7 @@ app.all('/', function (req, res) {
 });
 
 
-var server = app.listen(config.server.port, function() {
+var server = app.listen(config.server.port, config.server.host, function() {
 	var host = server.address().address;
 	var port = server.address().port;
 
