@@ -28,6 +28,9 @@ app.use('/static', express.static('static'));
 app.all('/', function (req, res) {
 	var data = extend(config.display, req.query);
 	var email = req.query.email;
+	if (!email) {
+		res.status(400).send('email not specified');
+	}
 
 	var duoOptions = {
 		'username': email,
