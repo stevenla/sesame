@@ -63,10 +63,13 @@ app.all('/passcode', function (req, res) {
 
 	if (!digits) {
 		res.send(render('templates/passcode-input.hbs', data));
+		console.log('[%s] Access requested', new Date());
 	} else if (digits == passcode) {
 		res.send(render('templates/index.hbs', data));
+		console.log('[%s] Access granted', new Date());
 	} else {
 		res.send(render('templates/passcode-error.hbs', data));
+		console.log('[%s] Access denied', new Date());
 	}
 });
 

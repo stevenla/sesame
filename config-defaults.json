@@ -10,6 +10,7 @@
 		"greetingMessage": "Input password",
 		"grantedMessage": "Welcome!",
 		"invalidMessage": "Denied!",
+		"timeout": 10,
 		"voice": "woman",
 		"language": "en-AU"
 	}
