@@ -7,7 +7,9 @@
 		"port": "3000"
 	},
 	"display": {
-		"greetingMessage": "Welcome!",
+		"greetingMessage": "Input password",
+		"grantedMessage": "Welcome!",
+		"invalidMessage": "Denied!",
 		"voice": "woman",
 		"language": "en-AU"
 	}

@@ -66,7 +66,7 @@ app.all('/passcode', function (req, res) {
 	} else if (digits == passcode) {
 		res.send(render('templates/index.hbs', data));
 	} else {
-		res.status(400).send('not allowed');
+		res.send(render('templates/passcode-error.hbs', data));
 	}
 });
 
