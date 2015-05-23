@@ -25,6 +25,7 @@
     "handlebars": "^3.0.3",
     "duo_web": "^1.0.2",
     "express": "^4.12.3",
-    "duo_api": "git://github.com/duosecurity/duo_api_nodejs"
+    "duo_api": "git://github.com/duosecurity/duo_api_nodejs",
+    "extend": "^2.0.1"
   }
 }

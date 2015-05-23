@@ -1,0 +1,14 @@
+{
+	"integrationKey": "",
+	"secretKey": "",
+	"hostname": "",
+	"server": {
+		"address": "localhost",
+		"port": "3000"
+	},
+	"display": {
+		"greetingMessage": "Welcome!",
+		"voice": "woman",
+		"language": "en-AU"
+	}
+}

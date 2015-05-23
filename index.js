@@ -5,46 +5,51 @@ var fs = require('fs');
 var handlebars = require('handlebars');
 var duoApi = require('duo_api');
 
-var config = require('./config.json');
+var extend = require('extend');
+var configDefaults = require('./config-defaults.json');
+var configUser = require('./config.json');
+var config = extend(configDefaults, configUser);
+
+function render(fileName, data) {
+	if (data === void 0) {
+		data = {};
+	}
+
+	var template = fs.readFileSync(fileName, 'utf-8');
+	var rendered = handlebars.compile(template);
+	return rendered(data);
+}
 
 var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, config.hostname);
 var app = express();
 
-app.get('/requestAll', function (req, res) {
-	config.pushToUsers.forEach(function (username) {
-		var options = {
-			'username': username,
-			'factor': 'push',
-			'device': 'auto'
-		};
+app.use('/static', express.static('static'));
 
-        var self = this;
-        self.done = false;
-		duoClient.jsonApiCall('POST', '/auth/v2/auth', options, function (duoResponse) {
-			if (duoResponse.response.result === 'allow') {
-				console.log('Push allowed for %s', username);
-				var template = fs.readFileSync('templates/p9.xml', 'utf-8');
-				var rendered = handlebars.compile(template);
-				if (!self.done) {
-					res.send(rendered());
-                    self.done = true;
-				}
-			} else {
-				console.log('Push failed for %s', username);
-			}
-		});
+app.all('/', function (req, res) {
+	var data = extend(config.display, req.query);
+	var email = req.query.email;
+
+	var duoOptions = {
+		'username': email,
+		'factor': 'push',
+		'device': 'auto'
+	};
+
+	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
+		if (duoResponse.response.result === 'allow') {
+			console.log('Push allowed for %s', email);
+			var template = fs.readFileSync('templates/index.hbs', 'utf-8');
+			var rendered = handlebars.compile(template);
+			res.send(rendered(data));
+		} else {
+			console.log('Push failed for %s', email);
+			res.status(400).send('not allowed');
+		}
 	});
 });
 
-app.get('/', function (req, res) {
-	var template = fs.readFileSync('templates/index.xml', 'utf-8');
-	var rendered = handlebars.compile(template);
-	res.send(rendered());
-});
 
-app.use('/static', express.static('static'));
-
-var server = app.listen(3000, function() {
+var server = app.listen(config.server.port, function() {
 	var host = server.address().address;
 	var port = server.address().port;
 
