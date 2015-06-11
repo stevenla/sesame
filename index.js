@@ -73,6 +73,10 @@ app.all('/passcode', function (req, res) {
 	}
 });
 
+app.all('/accept', function (req, res) {
+	var data = extend(config.display, req.query);
+	res.send(render('templates/index.hbs', data));
+});
 
 var server = app.listen(config.server.port, config.server.host, function() {
 	var host = server.address().address;
