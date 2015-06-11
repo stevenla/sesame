@@ -78,6 +78,43 @@ app.all('/accept', function (req, res) {
 	res.send(render('templates/index.hbs', data));
 });
 
+var tokens = {};
+var ONE_MIN = 1000 * 60;
+
+app.all('/create-token', function (req, res) {
+	var now = Date.now();
+	tokens[now] = true;
+	console.log ('adding ' + now);
+	res.end();
+});
+
+app.all('/consume-token', function (req, res) {
+	var tokenTimestamps = Object.keys(tokens);
+	var threshold = Date.now() - ONE_MIN;
+	var open = false;
+	
+	for (var i = 0, length = tokenTimestamps.length; i < length; i++) {
+		var timestamp = tokenTimestamps[i];
+
+		// Consume the token no matter what
+		delete tokens[timestamp];
+
+		// If the token's timestamp is within the last minute (or whatever the threshold is)
+		if (timestamp > threshold) {
+			open = true;
+			console.log ('succeeding ' + timestamp)
+			break;
+		}
+	}
+
+	if (open) {
+		res.send(render('templates/index.hbs', config.display));
+	} else {
+		console.log ('failure');
+		res.end();
+	}
+});
+
 var server = app.listen(config.server.port, config.server.host, function() {
 	var host = server.address().address;
 	var port = server.address().port;
