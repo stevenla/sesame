@@ -79,6 +79,8 @@ app.all('/accept', function (req, res) {
 });
 
 var tokens = {};
+var ONE_MIN = 1000 * 60;
+
 app.all('/create-token', function (req, res) {
 	var now = Date.now();
 	tokens[now] = true;
@@ -86,20 +88,22 @@ app.all('/create-token', function (req, res) {
 	res.end();
 });
 
-var FIVE_MINS = 1000 * 60 * 5;
 app.all('/consume-token', function (req, res) {
 	var tokenTimestamps = Object.keys(tokens);
-	var fiveMinutesAgo = Date.now() - FIVE_MINS;
+	var threshold = Date.now() - ONE_MIN;
 	var open = false;
+	
 	for (var i = 0, length = tokenTimestamps.length; i < length; i++) {
 		var timestamp = tokenTimestamps[i];
-		if (timestamp < fiveMinutesAgo) {
-			delete tokens[timestamp];
-		} else {
-			delete tokens[timestamp];
+
+		// Consume the token no matter what
+		delete tokens[timestamp];
+
+		// If the token's timestamp is within the last minute (or whatever the threshold is)
+		if (timestamp > threshold) {
 			open = true;
 			console.log ('succeeding ' + timestamp)
-			break;;
+			break;
 		}
 	}
 
