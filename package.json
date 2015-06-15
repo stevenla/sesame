@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/stevenla/sesame",
   "dependencies": {
-    "handlebars": "^3.0.3",
     "express": "^4.12.3",
     "duo_api": "git://github.com/duosecurity/duo_api_nodejs",
     "extend": "^2.0.1",
