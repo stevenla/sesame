@@ -25,7 +25,7 @@ module.exports = function (app) {
 			res.render('success');
 		} else {
 			console.log('Failed to consume');
-			res.render('failure');
+			res.status(401).end();
 		}
 	});
 };

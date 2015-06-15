@@ -31,7 +31,7 @@ app.set('view engine', 'handlebars');
 app.use('/static', express.static('static'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Set config defaults to be global so the templates can use them
+// Set config defaults to be global so the views can use them
 app.locals.config = config.layout;
 
 // Add URLs
@@ -55,7 +55,7 @@ var duoOptions = {
 duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
 	if (duoResponse.response.result === 'allow') {
 		console.log('Push allowed for %s', email);
-		res.send(render('templates/index.hbs', data));
+		res.send(render('views/success.handlebars', data));
 	} else {
 		console.log('Push failed for %s', email);
 		res.status(400).send('not allowed');
@@ -73,20 +73,20 @@ if (!passcode) {
 }
 
 if (!digits) {
-	res.send(render('templates/passcode-input.hbs', data));
+	res.send(render('views/passcode-input.hbs', data));
 	console.log('[%s] Access requested', new Date());
 } else if (digits == passcode) {
-	res.send(render('templates/index.hbs', data));
+	res.send(render('views/success.handlebars', data));
 	console.log('[%s] Access granted', new Date());
 } else {
-	res.send(render('templates/passcode-error.hbs', data));
+	res.send(render('views/passcode-error.hbs', data));
 	console.log('[%s] Access denied', new Date());
 }
 });
 
 app.all('/accept', function (req, res) {
 var data = extend(config.display, req.query);
-res.send(render('templates/index.hbs', data));
+res.send(render('views/success.handlebars', data));
 });
 
 var server = app.listen(config.server.port, config.server.host, function() {
