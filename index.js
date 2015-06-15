@@ -16,13 +16,13 @@ var TokenStore = require('./token-store');
 var tokens = new TokenStore();
 
 function render(fileName, data) {
-	if (data === void 0) {
-		data = {};
-	}
+if (data === void 0) {
+    data = {};
+}
 
-	var template = fs.readFileSync(fileName, 'utf-8');
-	var rendered = handlebars.compile(template);
-	return rendered(data);
+var template = fs.readFileSync(fileName, 'utf-8');
+var rendered = handlebars.compile(template);
+return rendered(data);
 }
 
 var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, config.hostname);
@@ -32,54 +32,54 @@ app.use('/static', express.static('static'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.all('/', function (req, res) {
-	var data = extend(config.display, req.query);
-	var email = req.query.email;
-	if (!email) {
-		res.status(400).send('email not specified');
-		return;
-	}
+var data = extend(config.display, req.query);
+var email = req.query.email;
+if (!email) {
+    res.status(400).send('email not specified');
+    return;
+}
 
-	var duoOptions = {
-		'username': email,
-		'factor': 'push',
-		'device': 'auto'
-	};
+var duoOptions = {
+    'username': email,
+    'factor': 'push',
+    'device': 'auto'
+};
 
-	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
-		if (duoResponse.response.result === 'allow') {
-			console.log('Push allowed for %s', email);
-			res.send(render('templates/index.hbs', data));
-		} else {
-			console.log('Push failed for %s', email);
-			res.status(400).send('not allowed');
-		}
-	});
+duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
+    if (duoResponse.response.result === 'allow') {
+        console.log('Push allowed for %s', email);
+        res.send(render('templates/index.hbs', data));
+    } else {
+        console.log('Push failed for %s', email);
+        res.status(400).send('not allowed');
+    }
+});
 });
 
 app.all('/passcode', function (req, res) {
-	var data = extend(config.display, req.query);
-	var passcode = req.query.passcode;
-	var digits = req.body.Digits;
-	if (!passcode) {
-		res.status(400).send('passcode required');
-		return;
-	}
+var data = extend(config.display, req.query);
+var passcode = req.query.passcode;
+var digits = req.body.Digits;
+if (!passcode) {
+    res.status(400).send('passcode required');
+    return;
+}
 
-	if (!digits) {
-		res.send(render('templates/passcode-input.hbs', data));
-		console.log('[%s] Access requested', new Date());
-	} else if (digits == passcode) {
-		res.send(render('templates/index.hbs', data));
-		console.log('[%s] Access granted', new Date());
-	} else {
-		res.send(render('templates/passcode-error.hbs', data));
-		console.log('[%s] Access denied', new Date());
-	}
+if (!digits) {
+    res.send(render('templates/passcode-input.hbs', data));
+    console.log('[%s] Access requested', new Date());
+} else if (digits == passcode) {
+    res.send(render('templates/index.hbs', data));
+    console.log('[%s] Access granted', new Date());
+} else {
+    res.send(render('templates/passcode-error.hbs', data));
+    console.log('[%s] Access denied', new Date());
+}
 });
 
 app.all('/accept', function (req, res) {
-	var data = extend(config.display, req.query);
-	res.send(render('templates/index.hbs', data));
+var data = extend(config.display, req.query);
+res.send(render('templates/index.hbs', data));
 });
 
 app.all('/create-token', function (req, res) {
