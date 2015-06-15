@@ -44,49 +44,49 @@ app.all('/', function (req, res) {
 	if (!email) {
 		res.status(400).send('email not specified');
 		return;
-}
-
-var duoOptions = {
-	'username': email,
-	'factor': 'push',
-	'device': 'auto'
-};
-
-duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
-	if (duoResponse.response.result === 'allow') {
-		console.log('Push allowed for %s', email);
-		res.send(render('views/success.handlebars', data));
-	} else {
-		console.log('Push failed for %s', email);
-		res.status(400).send('not allowed');
 	}
-});
+
+	var duoOptions = {
+		'username': email,
+		'factor': 'push',
+		'device': 'auto'
+	};
+
+	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
+		if (duoResponse.response.result === 'allow') {
+			console.log('Push allowed for %s', email);
+			res.send(render('views/success.handlebars', data));
+		} else {
+			console.log('Push failed for %s', email);
+			res.status(400).send('not allowed');
+		}
+	});
 });
 
 app.all('/passcode', function (req, res) {
-var data = extend(config.display, req.query);
-var passcode = req.query.passcode;
-var digits = req.body.Digits;
-if (!passcode) {
-	res.status(400).send('passcode required');
-	return;
-}
+	var data = extend(config.display, req.query);
+	var passcode = req.query.passcode;
+	var digits = req.body.Digits;
+	if (!passcode) {
+		res.status(400).send('passcode required');
+		return;
+	}
 
-if (!digits) {
-	res.send(render('views/passcode-input.hbs', data));
-	console.log('[%s] Access requested', new Date());
-} else if (digits == passcode) {
-	res.send(render('views/success.handlebars', data));
-	console.log('[%s] Access granted', new Date());
-} else {
-	res.send(render('views/passcode-error.hbs', data));
-	console.log('[%s] Access denied', new Date());
-}
+	if (!digits) {
+		res.send(render('views/passcode-input.hbs', data));
+		console.log('[%s] Access requested', new Date());
+	} else if (digits == passcode) {
+		res.send(render('views/success.handlebars', data));
+		console.log('[%s] Access granted', new Date());
+	} else {
+		res.send(render('views/passcode-error.hbs', data));
+		console.log('[%s] Access denied', new Date());
+	}
 });
 
 app.all('/accept', function (req, res) {
-var data = extend(config.display, req.query);
-res.send(render('views/success.handlebars', data));
+	var data = extend(config.display, req.query);
+	res.send(render('views/success.handlebars', data));
 });
 
 var server = app.listen(config.server.port, config.server.host, function() {
