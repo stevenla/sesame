@@ -6,10 +6,9 @@
 		"host": "localhost",
 		"port": "3000"
 	},
-	"display": {
-		"greetingMessage": "Input password",
-		"grantedMessage": "Welcome!",
-		"invalidMessage": "Denied!",
+	"layout": {
+		"successMessage": "Welcome!",
+		"failureMessage": "Denied!",
 		"timeout": 10,
 		"voice": "woman",
 		"language": "en-AU"

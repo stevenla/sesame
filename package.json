@@ -1,7 +1,7 @@
 {
   "name": "sesame",
   "version": "0.0.0",
-  "description": "opens apartment gates with twilio and duo",
+  "description": "opens apartment gates with twilio and yo or duo",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,8 @@
   "keywords": [
     "node",
     "twilio",
-    "duo"
+    "duo",
+    "yo"
   ],
   "author": "",
   "license": "ISC",
@@ -23,11 +24,11 @@
   "homepage": "https://github.com/stevenla/sesame",
   "dependencies": {
     "handlebars": "^3.0.3",
-    "duo_web": "^1.0.2",
     "express": "^4.12.3",
     "duo_api": "git://github.com/duosecurity/duo_api_nodejs",
     "extend": "^2.0.1",
     "body-parser": "^1.12.4",
-    "yo-api": "^1.1.2"
+    "express-handlebars": "^2.0.1",
+    "immutable": "^3.7.3"
   }
 }
