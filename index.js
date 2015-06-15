@@ -11,6 +11,10 @@ var configDefaults = require('./config-defaults.json');
 var configUser = require('./config.json');
 var config = extend(configDefaults, configUser);
 
+var TokenStore = require('./token-store');
+
+var tokens = new TokenStore();
+
 function render(fileName, data) {
 	if (data === void 0) {
 		data = {};
@@ -78,30 +82,14 @@ app.all('/accept', function (req, res) {
 	res.send(render('templates/index.hbs', data));
 });
 
-var tokens = {};
 app.all('/create-token', function (req, res) {
-	var now = Date.now();
-	tokens[now] = true;
-	console.log ('adding ' + now);
+    var username = req.query.username;
+    tokens.create(username);
 	res.end();
 });
 
-var FIVE_MINS = 1000 * 60 * 5;
 app.all('/consume-token', function (req, res) {
-	var tokenTimestamps = Object.keys(tokens);
-	var fiveMinutesAgo = Date.now() - FIVE_MINS;
-	var open = false;
-	for (var i = 0, length = tokenTimestamps.length; i < length; i++) {
-		var timestamp = tokenTimestamps[i];
-		if (timestamp < fiveMinutesAgo) {
-			delete tokens[timestamp];
-		} else {
-			delete tokens[timestamp];
-			open = true;
-			console.log ('succeeding ' + timestamp)
-			break;;
-		}
-	}
+    var open = tokens.consume();
 
 	if (open) {
 		res.send(render('templates/index.hbs', config.display));
