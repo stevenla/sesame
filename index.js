@@ -2,6 +2,7 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var expressHandlebars = require('express-handlebars');
 var fs = require('fs');
 var handlebars = require('handlebars');
 var duoApi = require('duo_api');
@@ -24,8 +25,18 @@ function render(fileName, data) {
 var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, config.hostname);
 var app = express();
 
+app.engine('handlebars', expressHandlebars());
+app.set('view engine', 'handlebars');
+
 app.use('/static', express.static('static'));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Set config defaults to be global so the views can use them
+app.locals.config = config.layout;
+
+// Add URLs
+require('./tokens')(app);
+
 
 app.all('/', function (req, res) {
 	var data = extend(config.display, req.query);
@@ -44,7 +55,7 @@ app.all('/', function (req, res) {
 	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
 		if (duoResponse.response.result === 'allow') {
 			console.log('Push allowed for %s', email);
-			res.send(render('templates/index.hbs', data));
+			res.send(render('views/success.handlebars', data));
 		} else {
 			console.log('Push failed for %s', email);
 			res.status(400).send('not allowed');
@@ -53,7 +64,7 @@ app.all('/', function (req, res) {
 });
 
 app.all('/passcode', function (req, res) {
-	var data = extend(config.display, req.query);
+	var data = extend(config.layout, req.query);
 	var passcode = req.query.passcode;
 	var digits = req.body.Digits;
 	if (!passcode) {
@@ -62,57 +73,20 @@ app.all('/passcode', function (req, res) {
 	}
 
 	if (!digits) {
-		res.send(render('templates/passcode-input.hbs', data));
+		res.send(render('views/passcode-input.hbs', data));
 		console.log('[%s] Access requested', new Date());
 	} else if (digits == passcode) {
-		res.send(render('templates/index.hbs', data));
+		res.send(render('views/success.handlebars', data));
 		console.log('[%s] Access granted', new Date());
 	} else {
-		res.send(render('templates/passcode-error.hbs', data));
+		res.send(render('views/passcode-error.hbs', data));
 		console.log('[%s] Access denied', new Date());
 	}
 });
 
 app.all('/accept', function (req, res) {
-	var data = extend(config.display, req.query);
-	res.send(render('templates/index.hbs', data));
-});
-
-var tokens = {};
-var ONE_MIN = 1000 * 60;
-
-app.all('/create-token', function (req, res) {
-	var now = Date.now();
-	tokens[now] = true;
-	console.log ('adding ' + now);
-	res.end();
-});
-
-app.all('/consume-token', function (req, res) {
-	var tokenTimestamps = Object.keys(tokens);
-	var threshold = Date.now() - ONE_MIN;
-	var open = false;
-	
-	for (var i = 0, length = tokenTimestamps.length; i < length; i++) {
-		var timestamp = tokenTimestamps[i];
-
-		// Consume the token no matter what
-		delete tokens[timestamp];
-
-		// If the token's timestamp is within the last minute (or whatever the threshold is)
-		if (timestamp > threshold) {
-			open = true;
-			console.log ('succeeding ' + timestamp)
-			break;
-		}
-	}
-
-	if (open) {
-		res.send(render('templates/index.hbs', config.display));
-	} else {
-		console.log ('failure');
-		res.end();
-	}
+	var data = extend(config.layout, req.query);
+	res.send(render('views/success.handlebars', data));
 });
 
 var server = app.listen(config.server.port, config.server.host, function() {
