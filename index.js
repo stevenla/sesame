@@ -64,7 +64,7 @@ app.all('/', function (req, res) {
 });
 
 app.all('/passcode', function (req, res) {
-	var data = extend(config.display, req.query);
+	var data = extend(config.layout, req.query);
 	var passcode = req.query.passcode;
 	var digits = req.body.Digits;
 	if (!passcode) {
@@ -85,7 +85,7 @@ app.all('/passcode', function (req, res) {
 });
 
 app.all('/accept', function (req, res) {
-	var data = extend(config.display, req.query);
+	var data = extend(config.layout, req.query);
 	res.send(render('views/success.handlebars', data));
 });
 
