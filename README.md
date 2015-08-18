@@ -15,15 +15,15 @@ Hook up your old-school gate telephone entry system in your apartment complex to
 
 ### Letting anybody in without checking
 
-* Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[ SESAME URL ]/accept`
+* Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[SESAME_URL]/accept`
 
 ### Forcing guests to create a token in order to authenticate
 
-* Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[ SESAME URL ]/tokens/consume`
+* Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[SESAME_URL]/tokens/consume`
 * Guests generate tokens by: 
-    * **Texting your Twilio number:** Set **SMS & MMS > Request URL** to  `http://[ SESAME URL ]/tokens/create`
-    * **Sending a [yo](http://justyo.co):** Create a yo account, set its **Edit Profile > Callback** to  `http://[ SESAME URL ]/tokens/create`
-    * Hitting `http://[ SESAME URL ]/tokens/create` with any other service
+    * **Texting your Twilio number:** Set **SMS & MMS > Request URL** to  `http://[SESAME_URL]/tokens/create`
+    * **Sending a [yo](http://justyo.co):** Create a yo account, set its **Edit Profile > Callback** to  `http://[SESAME_URL]/tokens/create`
+    * Hitting `http://[SESAME_URL]/tokens/create` with any other service
 
 ### Approving each access request manually using [Duo mobile](http://duosecurity.com)
 
