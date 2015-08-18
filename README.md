@@ -17,7 +17,7 @@ Hook up your old-school gate telephone entry system in your apartment complex to
 
 * Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[SESAME_URL]/accept`
 
-### Forcing guests to create a token in order to authenticate
+### Forcing guests to create a token in order to be let in
 
 * Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[SESAME_URL]/tokens/consume`
 * Guests generate tokens by: 
