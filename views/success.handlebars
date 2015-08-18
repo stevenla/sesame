@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say voice="{{ config.voice }}" language="{{ config.language }}">{{ config.successMessage }}</Say>
-    <Play>/static/9.wav</Play>
+	{{#each config.successTone}}
+	    <Play>/static/{{this}}.wav</Play>
+	{{/each}}
 </Response>

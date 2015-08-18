@@ -11,6 +11,7 @@
 		"failureMessage": "Denied!",
 		"timeout": 10,
 		"voice": "woman",
-		"language": "en-AU"
+		"language": "en-AU",
+		"successTone": ["9"]
 	}
 }
