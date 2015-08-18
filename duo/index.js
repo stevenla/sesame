@@ -8,7 +8,8 @@ var Router = require('express').Router;
 
 var router = new Router();
 
-var duoClient = new duoApi.Client(config.integrationKey, config.secretKey, config.hostname);
+var duoConfig = config.duo;
+var duoClient = new duoApi.Client(duoConfig.integrationKey, duoConfig.secretKey, duoConfig.hostname);
 
 router.all('/', function (req, res) {
 	var email = req.query.email;
