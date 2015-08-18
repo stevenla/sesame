@@ -30,6 +30,10 @@ app.all('/accept', function (req, res) {
 	res.render('success');
 });
 
+app.all('/', function (req, res) {
+	res.render('splash');
+});
+
 var server = app.listen(config.server.port, config.server.host, function() {
 	var host = server.address().address;
 	var port = server.address().port;
