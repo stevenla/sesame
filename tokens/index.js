@@ -8,7 +8,8 @@ var router = new Router();
 
 router.all('/create', function (req, res) {
 	var username = req.query.username;
-	var token = tokens.create(username);
+	var length = req.query.length;
+	var token = tokens.create(username, length);
 	// TODO: Enable whitelisting by making it more secure than just sending a get request with username param set
 	/*
 	if (config.userWhitelist.indexOf(username) < 0) {
