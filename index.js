@@ -27,7 +27,7 @@ app.use('/duo', require('./duo'));
 app.use('/passcode', require('./passcode'));
 
 app.all('/accept', function (req, res) {
-	res.render('success');
+	res.render('success', {notify: req.query.notify});
 });
 
 app.all('/', function (req, res) {

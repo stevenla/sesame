@@ -31,7 +31,7 @@ router.all('/consume', function (req, res) {
 	var token = tokens.consume();
 	if (token) {
 		console.log('Consumed Token: %j', token);
-		res.render('success');
+		res.render('success', {notify: req.query.notify});
 	} else {
 		console.log('Failed to consume');
 		res.status(401).end();

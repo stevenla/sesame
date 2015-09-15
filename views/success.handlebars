@@ -4,4 +4,7 @@
 	{{#each config.successTone}}
 	    <Play>/static/{{this}}.wav</Play>
 	{{/each}}
+	{{#if notify}}
+	<Sms to="{{notify}}">SESAME: your guest has arrived</Sms>
+	{{/if}}
 </Response>

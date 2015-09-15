@@ -27,7 +27,7 @@ router.all('/', function (req, res) {
 	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
 		if (duoResponse.response.result === 'allow') {
 			console.log('Push allowed for %s', email);
-			res.render('success');
+			res.render('success', {notify: req.query.notify});
 		} else {
 			console.log('Push failed for %s', email);
 			res.status(400).send('not allowed');
