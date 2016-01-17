@@ -4,6 +4,7 @@ var Yo = require('ympc-yo');
  * Render a success TwiML and optionally sends notifications
  * To notify via SMS:
  *   req.query.notify = sms:4081234567
+ *   req.query.notify = 4081234567
  * To notify via yo:
  *   req.query.notify = yo:recipient:api-key
  */
@@ -29,7 +30,10 @@ function renderSuccess(req, res) {
 			break;
 
 		default:
-			// no default
+			// Send SMS
+			var number = notify[0];
+			successParams = { notify: number };
+			break;
 	}
 
 	return res.render('success', successParams);
