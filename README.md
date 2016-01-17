@@ -20,10 +20,17 @@ Hook up your old-school gate telephone entry system in your apartment complex to
 ### Forcing guests to create a token in order to be let in
 
 * Have Twilio hit your application called by setting the **Voice > Request URL** to `http://[SESAME_URL]/tokens/consume`
-* Guests generate tokens by: 
+* Guests generate tokens by:
     * **Texting your Twilio number:** Set **SMS & MMS > Request URL** to  `http://[SESAME_URL]/tokens/create`
     * **Sending a [yo](http://justyo.co):** Create a yo account, set its **Edit Profile > Callback** to  `http://[SESAME_URL]/tokens/create`
     * Hitting `http://[SESAME_URL]/tokens/create` with any other service
+
+#### Sending SMS or Yo notifications when a token is consumed
+
+Add a notify query param to your twilio **Voice > Request URL**: 
+
+* Yo: `http://[SESAME_URL]/tokens/consume?notify=yo:<YO_API_KEY>:<YO_RECIPIENT>`
+* SMS: `http://[SESAME_URL]/tokens/consume?notify=sms:<PHONE_NUMBER>`
 
 ### Approving each access request manually using [Duo mobile](http://duosecurity.com)
 

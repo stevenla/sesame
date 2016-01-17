@@ -1,6 +1,7 @@
 var extend = require('extend');
 var configDefaults = require('../config-defaults.json');
 var configUser = require('../config.json');
+var renderSuccess = require('../renderSuccess');
 var config = extend(configDefaults, configUser);
 
 var duoApi = require('duo_api');
@@ -27,7 +28,7 @@ router.all('/', function (req, res) {
 	duoClient.jsonApiCall('POST', '/auth/v2/auth', duoOptions, function (duoResponse) {
 		if (duoResponse.response.result === 'allow') {
 			console.log('Push allowed for %s', email);
-			res.render('success', {notify: req.query.notify});
+			renderSuccess(req, res);
 		} else {
 			console.log('Push failed for %s', email);
 			res.status(400).send('not allowed');

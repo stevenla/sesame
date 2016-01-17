@@ -8,6 +8,7 @@ var expressHandlebars = require('express-handlebars');
 var extend = require('extend');
 var configDefaults = require('./config-defaults.json');
 var configUser = require('./config.json');
+var renderSuccess = require('./renderSuccess');
 var config = extend(configDefaults, configUser);
 
 var app = express();
@@ -27,7 +28,7 @@ app.use('/duo', require('./duo'));
 app.use('/passcode', require('./passcode'));
 
 app.all('/accept', function (req, res) {
-	res.render('success', {notify: req.query.notify});
+	renderSuccess(req, res);
 });
 
 app.all('/', function (req, res) {

@@ -23,11 +23,12 @@
   },
   "homepage": "https://github.com/stevenla/sesame",
   "dependencies": {
-    "express": "^4.12.3",
-    "duo_api": "git://github.com/duosecurity/duo_api_nodejs",
-    "extend": "^2.0.1",
     "body-parser": "^1.12.4",
+    "duo_api": "git://github.com/duosecurity/duo_api_nodejs",
+    "express": "^4.12.3",
     "express-handlebars": "^2.0.1",
-    "immutable": "^3.7.3"
+    "extend": "^2.0.1",
+    "immutable": "^3.7.3",
+    "ympc-yo": "^1.0.0"
   }
 }

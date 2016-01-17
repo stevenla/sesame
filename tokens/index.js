@@ -1,9 +1,10 @@
-var config = require('../config.json');
-var TokenStore = require('./token-store');
 var Router = require('express').Router;
 
-var tokens = new TokenStore();
+var config = require('../config.json');
+var TokenStore = require('./token-store');
+var renderSuccess = require('../renderSuccess');
 
+var tokens = new TokenStore();
 var router = new Router();
 
 router.all('/create', function (req, res) {
@@ -29,9 +30,13 @@ router.all('/create', function (req, res) {
 
 router.all('/consume', function (req, res) {
 	var token = tokens.consume();
+	var yoRecipient = req.query.yo;
+	var yoApiKey = req.query.yoApiKey;
+
 	if (token) {
 		console.log('Consumed Token: %j', token);
-		res.render('success', {notify: req.query.notify});
+		// res.render('success', {notify: req.query.notify});
+		renderSuccess(req, res);
 	} else {
 		console.log('Failed to consume');
 		res.status(401).end();
