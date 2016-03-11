@@ -2,7 +2,7 @@
   "name": "sesame",
   "version": "0.0.0",
   "description": "opens apartment gates with twilio and yo or duo",
-  "main": "index.js",
+  "main": "bin/sesame.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
