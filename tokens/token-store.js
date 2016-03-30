@@ -13,7 +13,7 @@ function TokenStore() {
 }
 
 TokenStore.prototype.create = function create(identifier, threshold) {
-    threshold = threshold || ONE_MINUTE;
+    threshold = Number(threshold) || ONE_MINUTE;
 
     var now = Date.now();
     var expiry = now + threshold;
