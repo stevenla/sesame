@@ -13,6 +13,8 @@ var config = extend(configDefaults, configUser);
 
 var app = express();
 
+app.set('port', getPort());
+
 app.engine('handlebars', expressHandlebars());
 app.set('view engine', 'handlebars');
 
@@ -35,9 +37,11 @@ app.all('/', function (req, res) {
 	res.render('splash');
 });
 
-var server = app.listen(config.server.port, config.server.host, function() {
-	var host = server.address().address;
-	var port = server.address().port;
-
-	console.log('Listening at http://%s:%s', host, port)
+var server = app.listen(app.get('port'), function() {
+	var port = app.get('port')
+    console.log('Node app is running on port', app.get('port'));
 });
+
+function getPort() {
+    return process.env.PORT || 5000;
+}
