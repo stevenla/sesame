@@ -1,0 +1,19 @@
+{
+	"duo": {
+		"integrationKey": "",
+		"secretKey": "",
+		"hostname": ""
+	},
+	"server": {
+		"host": "localhost",
+		"port": "3000"
+	},
+	"layout": {
+		"successMessage": "Welcome!",
+		"failureMessage": "Denied!",
+		"timeout": 10,
+		"voice": "woman",
+		"language": "en-AU",
+		"successTone": ["9"]
+	}
+}
