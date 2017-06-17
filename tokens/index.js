@@ -29,18 +29,7 @@ router.all('/create', function (req, res) {
 });
 
 router.all('/consume', function (req, res) {
-	var token = tokens.consume();
-	var yoRecipient = req.query.yo;
-	var yoApiKey = req.query.yoApiKey;
-
-	if (token) {
-		console.log('Consumed Token: %j', token);
-		// res.render('success', {notify: req.query.notify});
-		renderSuccess(req, res);
-	} else {
-		console.log('Failed to consume');
-		res.status(401).end();
-	}
+  renderSuccess(req, res);
 });
 
 module.exports = router;
