@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Say voice="{{ config.voice }}" language="{{ config.language }}">{{ config.failureMessage }}</Say>
+	{{#if notify}}
+	<Sms to="{{notify}}">SESAME: Denied access to a guest.</Sms>
+	{{/if}}
 </Response>

@@ -1,4 +1,5 @@
 var Yo = require('ympc-yo');
+var parseNotify = require('./parseNotify');
 
 /**
  * Render a success TwiML and optionally sends notifications
@@ -12,30 +13,7 @@ function renderSuccess(req, res) {
 	var notifyQuery = req.query.notify || '';
 	var notify = notifyQuery.split(':');
 	var protocol = notify[0];
-	var successParams = {};
-	switch (protocol) {
-		case 'sms':
-			var number = notify[1];
-			successParams = { notify: number };
-			break;
-
-		case 'yo':
-			var yoRecipient = notify[1];
-			var yoApiKey = notify[2];
-			(new Yo(yoApiKey))
-				.yo(yoRecipient)
-				.then(function (res) {
-					console.log('[%s] Sent yo to %s', new Date(), yoRecipient);
-				});
-			break;
-
-		default:
-			// Send SMS
-			var number = notify[0];
-			successParams = { notify: number };
-			break;
-	}
-
+	var successParams = parseNotify(req);
 	return res.render('success', successParams);
 }
 

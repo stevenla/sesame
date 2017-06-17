@@ -10,7 +10,7 @@
 	},
 	"layout": {
 		"successMessage": "Welcome!",
-		"failureMessage": "Denied!",
+		"failureMessage": "Please directly contact an occupant of apartment 201. Goodbye.",
 		"timeout": 10,
 		"voice": "woman",
 		"language": "en-AU",
