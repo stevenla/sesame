@@ -9,11 +9,11 @@ var parseNotify = require('./parseNotify');
  * To notify via yo:
  *   req.query.notify = yo:recipient:api-key
  */
-function renderSuccess(req, res) {
+function renderSuccess(req, res, identifier) {
 	var notifyQuery = req.query.notify || '';
 	var notify = notifyQuery.split(':');
 	var protocol = notify[0];
-	var successParams = parseNotify(req);
+	var successParams = parseNotify(req, identifier);
 	return res.render('success', successParams);
 }
 

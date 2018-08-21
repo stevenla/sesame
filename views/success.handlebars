@@ -5,6 +5,6 @@
 	    <Play>/static/{{this}}.wav</Play>
 	{{/each}}
 	{{#if notify}}
-	<Sms to="{{notify}}">SESAME: your guest has arrived</Sms>
+    <Sms to="{{notify}}">SESAME: your guest has arrived. Token identifier: {{ identifier }}.</Sms>
 	{{/if}}
 </Response>
